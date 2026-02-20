@@ -75,6 +75,7 @@ const connectToMongoDB = async () => {
 //  Start Server
 // ============================
 const PORT = process.env.PORT || 5000;
+console.log("Loaded PORT:", process.env.PORT);
 
 //console.log(" Loaded MONGO_URI from .env:", process.env.MONGO_URI);
 
