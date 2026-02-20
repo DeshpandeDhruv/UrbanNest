@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
-// ✅ Import Routes
+//  Import Routes
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
 
@@ -12,14 +12,14 @@ import listingRouter from './routes/listing.route.js';
 
 import utilsRouter from './routes/utils.route.js';
 
-// ✅ Initialize Environment Variables
+//  Initialize Environment Variables
 dotenv.config({ path: './.env' }); 
 
-// ✅ Initialize Express App
+//  Initialize Express App
 const app = express();
 
 // ============================
-// ✅ Middleware
+//  Middleware
 // ============================
 
 // Enable CORS for frontend origin
@@ -35,7 +35,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 // ============================
-// ✅ Routes
+//  Routes
 // ============================
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
@@ -44,7 +44,7 @@ app.use("/api/listing",listingRouter);
 app.use('/api/utils', utilsRouter);
 
 // ============================
-// ✅ Global Error Handler
+//  Global Error Handler
 // ============================
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -57,27 +57,28 @@ app.use((err, req, res, next) => {
 });
 
 // ============================
-// ✅ MongoDB Connection
+//  MongoDB Connection
 // ============================
 const connectToMongoDB = async () => {
   try {
-   // await mongoose.connect(process.env.MONGO_URI);
-    await mongoose.connect("mongodb+srv://dhruvdeshpande4:dhruvdeshpande2004@real-estate.bevrl.mongodb.net/real-estate?retryWrites=true&w=majority&appName=real-estate");
-    console.log("✅ Connected to MongoDB");
+    console.log("ENV CHECK:", process.env.MONGO_URI);
+     await mongoose.connect(process.env.MONGO_URI);
+     
+    console.log(" Connected to MongoDB");
   } catch (error) {
-    console.error("❌ MongoDB connection error:", error);
+    console.error(" MongoDB connection error:", error);
     process.exit(1); // Exit if cannot connect
   }
 };
 
 // ============================
-// ✅ Start Server
+//  Start Server
 // ============================
 const PORT = process.env.PORT || 5000;
 
-//console.log("📦 Loaded MONGO_URI from .env:", process.env.MONGO_URI);
+//console.log(" Loaded MONGO_URI from .env:", process.env.MONGO_URI);
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
+  console.log(` Server is running on port ${PORT}`);
   connectToMongoDB(); // Connect after server is up
 });
