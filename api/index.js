@@ -13,7 +13,7 @@ import listingRouter from './routes/listing.route.js';
 import utilsRouter from './routes/utils.route.js';
 
 //  Initialize Environment Variables
-dotenv.config({ path: './.env' }); 
+dotenv.config({ path: './api/.env' });
 
 //  Initialize Express App
 const app = express();
@@ -25,7 +25,7 @@ const app = express();
 // Enable CORS for frontend origin
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL,
     credentials: true,
   })
 );
