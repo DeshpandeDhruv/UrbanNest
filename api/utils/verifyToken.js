@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import dotenv from "dotenv";
 //dotenv.config();
-dotenv.config({ path: './api/.env' });
+dotenv.config();
 
 
 

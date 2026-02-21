@@ -13,7 +13,7 @@ import listingRouter from './routes/listing.route.js';
 import utilsRouter from './routes/utils.route.js';
 
 //  Initialize Environment Variables
-dotenv.config({ path: './api/.env' });
+dotenv.config();
 
 //  Initialize Express App
 const app = express();

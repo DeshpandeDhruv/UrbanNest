@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from dotenv import load_dotenv
 
 # Load backend env
-load_dotenv(dotenv_path="api/.env")
+load_dotenv()
 
 BASE_URL = os.getenv("BASE_API_URL", "http://localhost:5000")
 
