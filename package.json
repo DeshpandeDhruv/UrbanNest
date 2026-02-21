@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon api/index.js",
-    "start": "node api/index.js"
+    "start": "node api/index.js",
+    "cluster": "python api/ml/cluster_kmeans.py"
   },
   "keywords": [],
   "author": "",

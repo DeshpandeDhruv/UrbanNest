@@ -33,7 +33,10 @@ df['cluster'] = kmeans.labels_
 
 cluster_map = {row['_id']: int(row['cluster']) for _, row in df.iterrows()}
 
-with open('api/data/clusterMap.json', 'w') as f:
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+output_path = os.path.join(BASE_DIR, "data", "clusterMap.json")
+
+with open(output_path, "w") as f:
     json.dump(cluster_map, f)
 
 print("clusterMap.json generated successfully")
