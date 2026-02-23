@@ -8,11 +8,13 @@ import {
   getSingleListing,
   contactLandlord,
   getFilteredListings,
+  getSimilarListings
+  
 } from '../controllers/listing.controller.js';
 
 import { verifyToken } from '../utils/verifyToken.js';
-import { getSimilarListings } from '../controllers/listing.controller.js';
-
+//import { getSimilarListings } from '../controllers/listing.controller.js';
+//import { fileURLToPath } from 'url';
 const router = express.Router();
 
 // Listing creation & user's listings

@@ -3,6 +3,12 @@ import Updated_User from '../models/updateduser.model.js';
 import sendEmail from '../utils/sendEmail.js';
 import mongoose from 'mongoose';
 import fs from  'fs';
+import { fileURLToPath } from 'url';
+
+import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // CREATE LISTING
 export const createListing = async (req, res) => {
@@ -233,18 +239,28 @@ export const getFilteredListings = async (req, res, next) => {
 
 
 // backend/controllers/listing.controller.js
-export const getSimilarListings = async (req, res) => {
-  const { id } = req.params;
-  // Load clusterMap
-  const clusterMap = JSON.parse(fs.readFileSync('./api/data/clusterMap.json'));
-  const clusterId = clusterMap[id];
-  if (clusterId === undefined) return res.status(404).json({ message: 'No cluster found' });
+export const getSimilarListings = async (req, res, next) => {
+  try {
+    const { id } = req.params;
 
-  const similarIds = Object.entries(clusterMap)
-    .filter(([key, val]) => val === clusterId && key !== id)
-    .map(([key]) => key)
-    .slice(0, 4);
+    const clusterMapPath = path.join(__dirname, '..', 'data', 'clusterMap.json');
+    const clusterMap = JSON.parse(fs.readFileSync(clusterMapPath, 'utf-8'));
 
-  const listings = await Listing.find({ _id: { $in: similarIds } });
-  res.json(listings);
+    const clusterId = clusterMap[id];
+    if (clusterId === undefined) {
+      return res.status(404).json({ message: 'No cluster found' });
+    }
+
+    const similarIds = Object.entries(clusterMap)
+      .filter(([key, val]) => val === clusterId && key !== id)
+      .map(([key]) => key)
+      .slice(0, 4);
+
+    if (similarIds.length === 0) return res.status(200).json([]);
+
+    const listings = await Listing.find({ _id: { $in: similarIds } });
+    return res.status(200).json(listings);
+  } catch (error) {
+    return next(error);
+  }
 };

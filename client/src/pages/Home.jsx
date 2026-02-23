@@ -55,7 +55,7 @@ const Home = () => {
           </p>
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             {currentUser ? (
-              <Link to="/properties" className="btn btn-secondary text-lg px-8 py-3">
+              <Link to="/search" className="btn btn-secondary text-lg px-8 py-3">
                 Explore Properties
               </Link>
             ) : (
@@ -138,7 +138,7 @@ const Home = () => {
             className="text-center mt-12"
           >
             <Link
-              to="/properties"
+              to="/search"
               className="btn btn-secondary inline-block"
             >
               View All Properties
