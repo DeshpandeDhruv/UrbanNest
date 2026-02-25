@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI Pipeline
 
 on:
   push:
@@ -10,8 +10,12 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
+    env:
+      IMAGE_BACKEND: ${{ secrets.DOCKER_USERNAME }}/urban-backend
+      IMAGE_FRONTEND: ${{ secrets.DOCKER_USERNAME }}/urban-frontend
+
     steps:
-      - name: Check out repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Docker Buildx
@@ -23,16 +27,26 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Extract Git metadata
+        id: meta
+        run: |
+          echo "SHA_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
+          echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
       - name: Build and push backend image
         uses: docker/build-push-action@v4
         with:
           context: ./api
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/urban-backend:latest
+          tags: |
+            ${{ env.IMAGE_BACKEND }}:${{ env.SHA_TAG }}
+            ${{ env.IMAGE_BACKEND }}:${{ env.BRANCH_NAME }}-latest
 
       - name: Build and push frontend image
         uses: docker/build-push-action@v4
         with:
           context: ./client
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/urban-frontend:latest
+          tags: |
+            ${{ env.IMAGE_FRONTEND }}:${{ env.SHA_TAG }}
+            ${{ env.IMAGE_FRONTEND }}:${{ env.BRANCH_NAME }}-latest
